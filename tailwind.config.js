@@ -1,4 +1,5 @@
 module.exports = {
+  important: true,
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -15,7 +16,7 @@ module.exports = {
       spacing: {
         '100': '64rem'
       },
-    },
+    },  
   },
   variants: {
     extend: {},

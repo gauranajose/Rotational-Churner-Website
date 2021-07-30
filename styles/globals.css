@@ -14,3 +14,17 @@
     @apply text-base;
   }
 }
+
+@layer components {
+  .MuiLinearProgress-colorSecondary {
+    @apply bg-blue-200 !important;
+  }
+
+  .MuiLinearProgress-barColorSecondary {
+    @apply bg-blue-600 !important;
+  }
+
+  .css-2b097c-container {
+    @apply w-full !important;
+  }
+}

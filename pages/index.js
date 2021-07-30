@@ -1,7 +1,99 @@
-import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import Head from 'next/head';
+import DataTable from '../components/DatasetTable';
+import Navbar from '../components/Navbar';
+import rows from '../data/rows';
+import AsyncSelect from '../components/AsyncSelect';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { useState } from 'react';
+import getPrediction from '../apis/getPrediction';
 
 export default function Home() {
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isResultReady, setIsResultReady] = useState(false);
+  const [userRows, setUserRows] = useState();
+  const [closestUserRows, setClosestUserRows] = useState();
+  const [distance, setDistance] = useState();
+
+  const mobileNumberOnChangeHandler = (e) => {
+    setMobileNumber(e)
+  }
+
+  const resultIsReady = () => {
+    setIsLoading(false);
+    setIsResultReady(true);
+  }
+
+  const predictClickHandler = () => {
+    setIsLoading(true);
+    setIsResultReady(false);
+    getPrediction(mobileNumber).then(result => {
+      formatResult(result);
+      resultIsReady();
+    })
+  }
+
+  const formatValue = (value) => {
+    return value ? value.toString() : '';
+  }
+
+  const formatResult = (result) => {
+    setUserRows(
+      result.user_data.map(user => ({
+        id: formatValue(user.activity_id) , 
+        mobile_number: formatValue(user.mobile_number) , 
+        activity: formatValue(user.activity) , 
+        date: formatValue(user.date) , 
+        time: formatValue(user.time) , 
+        'duration(min)': formatValue(user['duration(min)']) , 
+        length_of_text: formatValue(user.length_of_text) , 
+        type_of_load: formatValue(user.type_of_load) , 
+        amount_load: formatValue(user.amount_load), 
+        receiver: formatValue(user.receiver), 
+        mb_use: formatValue(user.mb_use), 
+        'location(city)': formatValue(user['location(city)']), 
+        'location(district)': formatValue(user['location(district)']),
+      }))
+    ) ;
+    setClosestUserRows(
+      result.closest_user_data.map(user => ({
+        id: formatValue(user.activity_id) , 
+        mobile_number: formatValue(user.mobile_number) , 
+        activity: formatValue(user.activity) , 
+        date: formatValue(user.date) , 
+        time: formatValue(user.time) , 
+        'duration(min)': formatValue(user['duration(min)']) , 
+        length_of_text: formatValue(user.length_of_text) , 
+        type_of_load: formatValue(user.type_of_load) , 
+        amount_load: formatValue(user.amount_load), 
+        receiver: formatValue(user.receiver), 
+        mb_use: formatValue(user.mb_use), 
+        'location(city)': formatValue(user['location(city)']), 
+        'location(district)': formatValue(user['location(district)']),
+      }))
+    )
+    setDistance(result.distance.toFixed(2))
+    console.log(result);
+  }
+
+  const tables = (
+    <div>
+      <div className='flex items-center'>
+        <h2 className='font-bold text-2xl' >Eucledean Distance: <span className='text-blue-600'>{distance}</span></h2>
+        { 
+          distance <= 800
+            ? <p className='ml-auto font-medium text-green-600 bg-green-300 px-5 py-2 border border-green-400'>Possible Rotational Churner</p>
+            : <p className='ml-auto font-medium text-red-600 bg-red-300 px-5 py-2 border border-red-400'>Non Rotational Churner</p>
+        }
+        
+      </div>
+      <h2 className='font-bold text-2xl my-5'>New User Data</h2>
+      <DataTable rows={userRows} />
+      <h2 className='font-bold text-2xl my-5'>Closest Old User Data</h2>
+      <DataTable rows={closestUserRows} />
+    </div>
+  )
+
   return (
     <div className="flex flex-col items-center">
       <Head>
@@ -10,7 +102,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <div className="w-100 flex mt-28">
+      <div className="w-100 flex mt-28 mb-20">
         <div className="w-3/12 fixed">
           <h3 className="text-lg font-medium">Navigation</h3>
           <ul className="font-medium text-gray-500">
@@ -38,6 +130,9 @@ export default function Home() {
           <h1 className="font-bold text-5xl mt-10">Dataset Used</h1>
           <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
           <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
+
+          <DataTable rows={rows}/>
+
           <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae autem maxime, doloremque consequuntur incidunt tempora non nulla rerum esse nesciunt quibusdam nam odit recusandae dolorem labore minus hic dolore commodi obcaecati aliquid repellendus nobis quis aspernatur eos. Laboriosam fugit enim ullam porro maiores amet et quidem, ut sunt reiciendis dignissimos deleniti soluta necessitatibus quam. Quae ipsa vel labore provident quas, porro debitis dicta. Modi tempore distinctio ut, quidem nulla, exercitationem, eum sapiente libero repellendus incidunt aspernatur esse! Aliquam tempore animi incidunt velit a cumque! At fuga maxime laboriosam alias, id aut voluptatum iure sunt nisi eligendi nobis, ab fugit quae.</p>
 
           <a className="relative -top-28" id="methods"></a>
@@ -48,6 +143,23 @@ export default function Home() {
 
           <a className="relative -top-28" id="prototype"></a>
           <h1 className="font-bold text-5xl mt-10">Prototype</h1>
+
+          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
+          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
+
+          <div className="flex justify-between">
+            <AsyncSelect value={mobileNumber} onChange={mobileNumberOnChangeHandler} />
+            <button 
+              disabled={mobileNumber.trim().length == 0} 
+              className="ml-6 bg-blue-600 font-medium text-sm px-7 rounded-md hover:bg-blue-500 text-blue-200"
+              onClick={predictClickHandler}
+            >PREDICT</button>
+          </div>
+          <div className="my-5">
+            { isLoading ? <LinearProgress color="secondary" /> : null }
+          </div>
+          { isResultReady && !isLoading ? tables : null }
+          <div className="h-0.5 w-full bg-gray-200 mt-20"></div>
 
         </div>
       </div>
