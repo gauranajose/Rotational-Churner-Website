@@ -6,6 +6,7 @@ import AsyncSelect from '../components/AsyncSelect';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useState } from 'react';
 import getPrediction from '../apis/getPrediction';
+import Image from 'next/image'
 
 export default function Home() {
   const [mobileNumber, setMobileNumber] = useState('');
@@ -44,7 +45,7 @@ export default function Home() {
         mobile_number: formatValue(user.mobile_number) , 
         activity: formatValue(user.activity) , 
         date: formatValue(user.date) , 
-        time: formatValue(user.time) , 
+        time: formatValue(user['date(time)']) , 
         'duration(min)': formatValue(user['duration(min)']) , 
         length_of_text: formatValue(user.length_of_text) , 
         type_of_load: formatValue(user.type_of_load) , 
@@ -61,7 +62,7 @@ export default function Home() {
         mobile_number: formatValue(user.mobile_number) , 
         activity: formatValue(user.activity) , 
         date: formatValue(user.date) , 
-        time: formatValue(user.time) , 
+        time: formatValue(user['date(time)']) , 
         'duration(min)': formatValue(user['duration(min)']) , 
         length_of_text: formatValue(user.length_of_text) , 
         type_of_load: formatValue(user.type_of_load) , 
@@ -81,9 +82,9 @@ export default function Home() {
       <div className='flex items-center'>
         <h2 className='font-bold text-2xl' >Eucledean Distance: <span className='text-blue-600'>{distance}</span></h2>
         { 
-          distance <= 800
-            ? <p className='ml-auto font-medium text-green-600 bg-green-300 px-5 py-2 border border-green-400'>Possible Rotational Churner</p>
-            : <p className='ml-auto font-medium text-red-600 bg-red-300 px-5 py-2 border border-red-400'>Non Rotational Churner</p>
+          distance <= 1000
+            ? <p className='ml-auto font-medium text-green-600 bg-green-300 px-5 py-2 border border-green-400'>Possible Old User</p>
+            : <p className='ml-auto font-medium text-red-600 bg-red-300 px-5 py-2 border border-red-400'>New User</p>
         }
         
       </div>
@@ -117,35 +118,53 @@ export default function Home() {
 
           <a className="relative -top-28" id="about"></a>
           <h1 className="font-bold text-5xl" id="about">About this Website</h1>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
+          <p className="my-5">This website will showcase our group&apos;s project in pattern recognition concerning the topic of Rotational Churner.The members of this group are the following: <span className='font-bold text-blue-600'>Rudnick James Donaire</span>, <span className='font-bold text-blue-600'>Jose Lean Gaurana</span>, <span className='font-bold text-blue-600'>Mac Kristan Isaac</span>, and <span className='font-bold text-blue-600'>Aerol Ortiz</span>.</p>
 
           <a className="relative -top-28" id="rotational_churner"></a>
           <h1 className="font-bold text-5xl mt-10">Rotational Churner</h1>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae autem maxime, doloremque consequuntur incidunt tempora non nulla rerum esse nesciunt quibusdam nam odit recusandae dolorem labore minus hic dolore commodi obcaecati aliquid repellendus nobis quis aspernatur eos. Laboriosam fugit enim ullam porro maiores amet et quidem, ut sunt reiciendis dignissimos deleniti soluta necessitatibus quam. Quae ipsa vel labore provident quas, porro debitis dicta. Modi tempore distinctio ut, quidem nulla, exercitationem, eum sapiente libero repellendus incidunt aspernatur esse! Aliquam tempore animi incidunt velit a cumque! At fuga maxime laboriosam alias, id aut voluptatum iure sunt nisi eligendi nobis, ab fugit quae.</p>
+          <p className="my-5">A Churn rate is a way on how a business would measure the rate of customers ceasing the use of the business’ services in a particular period that is mostly found in contractual-based businesses (e.g., subscriptions or monthly membership). It is one of the measurements in a business that can help in providing essential information on how they will develop better business models and solutions to the problems that they face with their customers. </p>
+          <p className="my-5">Rotational Churn is a concept or a phenomenon in a business in which customers ceases to use the services of a business but rejoins to the same services to either gain any benefits that a new customer may have or whatever circumstances that may have occurred. It is a concept that identifies if that “new” customer can be considered as a potential old customer that uses the same services previously. This can be identified in various ways such as their activities or their social networks.</p>
 
           <a className="relative -top-28" id="dataset"></a>
           <h1 className="font-bold text-5xl mt-10">Dataset Used</h1>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
+          <p className="my-5">Each row represents a customer while each column contains the customer’s attributes described in the column metadata. The dataset also includes the following information:</p>
+          <ul className="list-disc ml-10 my-5">
+            <li><p>Information about the customers mainly their mobile number, city, and district.</p></li>
+            <li><p>Account information mainly the promos or services they signed up for, when the transaction happened, what type of promos they subscribed to, how much they paid, how many megabytes they used and on what platform did the transaction happened. </p></li>
+          </ul>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">activity_id</span>- unique id assigned to each activity or subscription </p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">mobile_number</span>- the mobile number of the customer</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">activity</span>- what type of platform or service they used or subscribed to</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">date</span>- when the activity happened</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">time</span>- exact time of the transaction</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">duration</span>- how long did they use service </p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">length_of_text</span>- if they texted someone how long is the length of the message</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">type_of_load</span>- what kind of promo did they subscribed to</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">amount_load</span>- if they subscribed to a promo how much did they pay</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">receiver</span>- if they used mobile data what platform did they used it on, If they subscribed to a service what is the mobile number </p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">mb_use</span>- ff they used the Internet how many Megabytes did they consume </p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">location_city</span>- the city where the activity happened</p>
+          <p className="ml-6 mb-2"><span className="text-blue-600 font-bold mr-1">location_district</span>- the district of the city</p>
+
+          <p className='text-xl font-bold my-5'>Sample Dataset</p>
 
           <DataTable rows={rows}/>
 
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae autem maxime, doloremque consequuntur incidunt tempora non nulla rerum esse nesciunt quibusdam nam odit recusandae dolorem labore minus hic dolore commodi obcaecati aliquid repellendus nobis quis aspernatur eos. Laboriosam fugit enim ullam porro maiores amet et quidem, ut sunt reiciendis dignissimos deleniti soluta necessitatibus quam. Quae ipsa vel labore provident quas, porro debitis dicta. Modi tempore distinctio ut, quidem nulla, exercitationem, eum sapiente libero repellendus incidunt aspernatur esse! Aliquam tempore animi incidunt velit a cumque! At fuga maxime laboriosam alias, id aut voluptatum iure sunt nisi eligendi nobis, ab fugit quae.</p>
-
           <a className="relative -top-28" id="methods"></a>
           <h1 className="font-bold text-5xl mt-10">Methods Applied</h1>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae autem maxime, doloremque consequuntur incidunt tempora non nulla rerum esse nesciunt quibusdam nam odit recusandae dolorem labore minus hic dolore commodi obcaecati aliquid repellendus nobis quis aspernatur eos. Laboriosam fugit enim ullam porro maiores amet et quidem, ut sunt reiciendis dignissimos deleniti soluta necessitatibus quam. Quae ipsa vel labore provident quas, porro debitis dicta. Modi tempore distinctio ut, quidem nulla, exercitationem, eum sapiente libero repellendus incidunt aspernatur esse! Aliquam tempore animi incidunt velit a cumque! At fuga maxime laboriosam alias, id aut voluptatum iure sunt nisi eligendi nobis, ab fugit quae.</p>
+          <p className='text-xl font-bold my-5'>Euclidean Distance</p>
+          <p className="my-5">In mathematics, Euclidean distance is basically the distance between two points and is derived from the Pythagoras theorem formula. In machine learning, distance measurement such as the Euclidean distance provides an effective foundation to different types of machine learning such as k-means. Euclidean distance calculates the distance between two rows of data that are numeric to find the distance of two points.  </p>
+          <div className="my-5 flex justify-center">
+            <Image src='/distance_formula.png' height='116' width='345' />
+          </div>
+          <p className="my-5">For this project, Euclidean distance is utilized by using it as the basis for the comparison of the churned and new user. Basically, the closer the distance is between the churned and new user, the more likely it is that the users are the same person. After processing the dataset generated by the group, testing the similarity is done by using the Euclidean distance formula to the rows of the new and churned data frame. This is executed through the Euclidean function from scipy library.</p>
 
           <a className="relative -top-28" id="prototype"></a>
           <h1 className="font-bold text-5xl mt-10">Prototype</h1>
 
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dolores maxime temporibus quia vel aliquam sit odit quisquam maiores! Est!</p>
-          <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illum aliquam debitis? Vero, ducimus possimus! Consectetur nesciunt amet ipsam a illum quod enim necessitatibus exercitationem.</p>
+          <p className="my-5">Choose any existing mobile numbers shown in the dropdown list and press, &rdquo;Predict&rdquo;, to see the results.</p>
+          <p className="my-5">The results will vary based on the threshold we provided for the euclidean distance; if the distance is below 1000, then the mobile number is potentially an old user of the service, otherwise, it is a new user.</p>
+          <p className="my-5">Two tables will pop-up showing the activities of both the mobile number selected and the closest user from the dataset.</p>
 
           <div className="flex justify-between">
             <AsyncSelect value={mobileNumber} onChange={mobileNumberOnChangeHandler} />
